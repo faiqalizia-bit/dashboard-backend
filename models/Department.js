@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const departmentSchema = new mongoose.Schema(
   {
@@ -6,20 +6,22 @@ const departmentSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true
+      trim: true,
     },
-     email: {
+    email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     status: {
       type: String,
       enum: ["Active", "Inactive"],
-      default: "Active"
-    }
+      default: "Active",
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Department", departmentSchema);
+const Department = mongoose.model("Department", departmentSchema);
+
+export default Department;

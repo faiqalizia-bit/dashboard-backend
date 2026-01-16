@@ -1,11 +1,24 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const connectDB = require("./config/db");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./config/db.js";
+
+// Routes
 
 
+import userRouter from "./routes/userRoutes.js";
+import docRouter from "./routes/doctorRoutes.js";
+import nurseRouter from "./routes/nursesRoutes.js";
+import patientRouter from "./routes/patientsRoutes.js";
+import wardBoyRouter from "./routes/wardboys.routes.js";
+import departmentRouter from "./routes/departmentsRoutes.js";
+import guardRouter from "./routes/guardsRoutes.js";
+import dashboardRouter from "./routes/dashboardRoutes.js";
 
+// Load environment variables
 dotenv.config();
+
+// Connect to MongoDB
 connectDB();
 
 const app = express();
@@ -14,17 +27,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/users", require("./routes/userRoutes"));
-// app.use("/api/doctors", require("./routes/doctorRoutes"))
-app.use("/api/doctors", require("./routes/doctorRoutes"));
-app.use("/api/nurses", require("./routes/nursesRoutes"))
-app.use("/api/patients", require("./routes/patientsRoutes"))
-app.use("/api/wardboys", require("./routes/wardboys.routes"))
-app.use("/api/departments", require("./routes/departmentsRoutes"))
-app.use("/api/guards", require("./routes/guardsRoutes"))
+// Mount routes with unique router names
+app.use("/api/users", userRouter);
+app.use("/api/doctors", docRouter);
+app.use("/api/nurses", nurseRouter);
+app.use("/api/patients", patientRouter);
+app.use("/api/wardboys", wardBoyRouter);
+app.use("/api/departments", departmentRouter);
+app.use("/api/guards", guardRouter);
+app.use("/api/dashboard", dashboardRouter);
 
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`Server running on port ${PORT} 🚀`)
-);
+)

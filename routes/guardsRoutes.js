@@ -1,11 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/guards.controller");
+import express from "express";
+import {
+  getGuards,
+  getGuardById,
+  createGuard,
+  updateGuard,
+  deleteGuard,
+} from "../controllers/guards.controller.js";
 
-router.get("/", controller.getGuards);
-router.get("/:id", controller.getGuardById);
-router.post("/", controller.createGuard);
-router.put("/:id", controller.updateGuard);
-router.delete("/:id", controller.deleteGuard);
+const guardRouter = express.Router();
 
-module.exports = router;
+guardRouter.get("/", getGuards);
+guardRouter.get("/:id", getGuardById);
+guardRouter.post("/", createGuard);
+guardRouter.put("/:id", updateGuard);
+guardRouter.delete("/:id", deleteGuard);
+
+export default guardRouter;

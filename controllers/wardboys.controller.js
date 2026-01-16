@@ -1,50 +1,70 @@
-const WardBoy = require("../models/WardBoy");
+import WardBoy from "../models/WardBoy.js";
 
 // GET all ward boys
-exports.getWardBoys = async (req, res) => {
-  const wardBoys = await WardBoy.find();
-  res.json(wardBoys);
+export const getWardBoys = async (req, res) => {
+  try {
+    const wardBoys = await WardBoy.find();
+    res.json(wardBoys);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // GET ward boy by ID
-exports.getWardBoyById = async (req, res) => {
-  const wardBoy = await WardBoy.findById(req.params.id);
+export const getWardBoyById = async (req, res) => {
+  try {
+    const wardBoy = await WardBoy.findById(req.params.id);
 
-  if (!wardBoy) {
-    return res.status(404).json({ message: "Ward boy not found" });
+    if (!wardBoy) {
+      return res.status(404).json({ message: "Ward boy not found" });
+    }
+
+    res.json(wardBoy);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json(wardBoy);
 };
 
 // CREATE ward boy
-exports.createWardBoy = async (req, res) => {
-  const wardBoy = await WardBoy.create(req.body);
-  res.status(201).json(wardBoy);
+export const createWardBoy = async (req, res) => {
+  try {
+    const wardBoy = await WardBoy.create(req.body);
+    res.status(201).json(wardBoy);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // UPDATE ward boy
-exports.updateWardBoy = async (req, res) => {
-  const wardBoy = await WardBoy.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
+export const updateWardBoy = async (req, res) => {
+  try {
+    const wardBoy = await WardBoy.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
 
-  if (!wardBoy) {
-    return res.status(404).json({ message: "Ward boy not found" });
+    if (!wardBoy) {
+      return res.status(404).json({ message: "Ward boy not found" });
+    }
+
+    res.json(wardBoy);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
-
-  res.json(wardBoy);
 };
 
 // DELETE ward boy
-exports.deleteWardBoy = async (req, res) => {
-  const wardBoy = await WardBoy.findByIdAndDelete(req.params.id);
+export const deleteWardBoy = async (req, res) => {
+  try {
+    const wardBoy = await WardBoy.findByIdAndDelete(req.params.id);
 
-  if (!wardBoy) {
-    return res.status(404).json({ message: "Ward boy not found" });
+    if (!wardBoy) {
+      return res.status(404).json({ message: "Ward boy not found" });
+    }
+
+    res.json({ message: "Ward boy deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json({ message: "Ward boy deleted successfully" });
 };

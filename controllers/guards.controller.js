@@ -1,50 +1,70 @@
-const Guard = require("../models/Guard");
+import Guard from "../models/Guard.js";
 
 // GET all guards
-exports.getGuards = async (req, res) => {
-  const guards = await Guard.find()
-  res.json(guards);
+export const getGuards = async (req, res) => {
+  try {
+    const guards = await Guard.find();
+    res.json(guards);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // GET guard by ID
-exports.getGuardById = async (req, res) => {
-  const guard = await Guard.findById(req.params.id)
+export const getGuardById = async (req, res) => {
+  try {
+    const guard = await Guard.findById(req.params.id);
 
-  if (!guard) {
-    return res.status(404).json({ message: "Guard not found" });
+    if (!guard) {
+      return res.status(404).json({ message: "Guard not found" });
+    }
+
+    res.json(guard);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json(guard);
 };
 
 // CREATE guard
-exports.createGuard = async (req, res) => {
-  const guard = await Guard.create(req.body);
-  res.status(201).json(guard);
+export const createGuard = async (req, res) => {
+  try {
+    const guard = await Guard.create(req.body);
+    res.status(201).json(guard);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // UPDATE guard
-exports.updateGuard = async (req, res) => {
-  const guard = await Guard.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
+export const updateGuard = async (req, res) => {
+  try {
+    const guard = await Guard.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
 
-  if (!guard) {
-    return res.status(404).json({ message: "Guard not found" });
+    if (!guard) {
+      return res.status(404).json({ message: "Guard not found" });
+    }
+
+    res.json(guard);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
-
-  res.json(guard);
 };
 
 // DELETE guard
-exports.deleteGuard = async (req, res) => {
-  const guard = await Guard.findByIdAndDelete(req.params.id);
+export const deleteGuard = async (req, res) => {
+  try {
+    const guard = await Guard.findByIdAndDelete(req.params.id);
 
-  if (!guard) {
-    return res.status(404).json({ message: "Guard not found" });
+    if (!guard) {
+      return res.status(404).json({ message: "Guard not found" });
+    }
+
+    res.json({ message: "Guard deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json({ message: "Guard deleted successfully" });
 };

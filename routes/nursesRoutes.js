@@ -1,11 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/nurses.controller");
+import express from "express";
+import {
+  getNurses,
+  getNurseById,
+  createNurse,
+  updateNurse,
+  deleteNurse,
+} from "../controllers/nurses.controller.js";
 
-router.get("/", controller.getNurses);
-router.get("/:id", controller.getNurseById);
-router.post("/", controller.createNurse);
-router.put("/:id", controller.updateNurse);
-router.delete("/:id", controller.deleteNurse);
+const nurseRouter = express.Router();
 
-module.exports = router;
+nurseRouter.get("/", getNurses);
+nurseRouter.get("/:id", getNurseById);
+nurseRouter.post("/", createNurse);
+nurseRouter.put("/:id", updateNurse);
+nurseRouter.delete("/:id", deleteNurse);
+
+export default nurseRouter;

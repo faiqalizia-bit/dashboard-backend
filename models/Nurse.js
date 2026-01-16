@@ -1,24 +1,26 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const nurseSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     status: {
       type: String,
       enum: ["Active", "Inactive"],
-      default: "Active"
-    }
+      default: "Active",
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Nurse", nurseSchema);
+const Nurse = mongoose.model("Nurse", nurseSchema);
+
+export default Nurse;
