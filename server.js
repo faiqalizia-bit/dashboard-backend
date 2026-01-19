@@ -14,6 +14,10 @@ import wardBoyRouter from "./routes/wardboys.routes.js";
 import departmentRouter from "./routes/departmentsRoutes.js";
 import guardRouter from "./routes/guardsRoutes.js";
 import dashboardRouter from "./routes/dashboardRoutes.js";
+import loginRouter from "./routes/loginRoutes.js";
+import registerRouter from "./routes/registerRoutes.js";
+// import userRouter from "./routes/userRoutes.js";
+
 
 // Load environment variables
 dotenv.config();
@@ -36,6 +40,8 @@ app.use("/api/wardboys", wardBoyRouter);
 app.use("/api/departments", departmentRouter);
 app.use("/api/guards", guardRouter);
 app.use("/api/dashboard", dashboardRouter);
+// app.use("/api/register", registerRouter);
+// app.use("/api/login", loginRouter)
 
 // Start server
 const PORT = process.env.PORT || 5000;
