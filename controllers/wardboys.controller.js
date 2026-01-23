@@ -3,8 +3,15 @@ import WardBoy from "../models/WardBoy.js";
 // GET all ward boys
 export const getWardBoys = async (req, res) => {
   try {
-    const wardBoys = await WardBoy.find();
-    res.json(wardBoys);
+
+    const page = parseInt(req.query.page)||1;
+    const limit = parseInt(req.query.limit)||10;
+    const skip = (page - 1) * limit
+
+    const total = await WardBoy.countDocuments();
+
+    const wardBoys = await WardBoy.find().sort({createdAt: -1}).skip(skip).limit(limit);
+    res.json({page, limit, wardBoys, totalPages:Math.ceil(total/limit)});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

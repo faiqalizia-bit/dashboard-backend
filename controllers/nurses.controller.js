@@ -3,8 +3,13 @@ import Nurse from "../models/Nurse.js";
 // GET all nurses
 export const getNurses = async (req, res) => {
   try {
-    const nurses = await Nurse.find();
-    res.json(nurses);
+     const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+     const total = await Nurse.countDocuments();
+    const nurses = await Nurse.find().sort({createdAt: -1}).skip(skip).limit(limit);
+    res.json({total, limit, skip, totalPages: Math.ceil(total / limit), nurses});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

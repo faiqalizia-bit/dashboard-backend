@@ -2,9 +2,16 @@ import Guard from "../models/Guard.js";
 
 // GET all guards
 export const getGuards = async (req, res) => {
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  const total = await Guard.countDocuments()
+
   try {
-    const guards = await Guard.find();
-    res.json(guards);
+    const guards = await Guard.find().sort({createdAt: -1}).skip(skip).limit(limit);
+    res.json( {page, limit, totalPages:Math.ceil(total/limit),guards});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

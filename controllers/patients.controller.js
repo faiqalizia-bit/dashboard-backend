@@ -3,8 +3,22 @@ import Patient from "../models/Patient.js";
 // GET all patients
 export const getPatients = async (req, res) => {
   try {
-    const patients = await Patient.find();
-    res.json(patients);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    
+
+    // Get total count for frontend pagination
+    const total = await Patient.countDocuments();
+
+    const patients = await Patient.find().sort({createdAt: -1}).skip(skip).limit(limit);
+
+    res.json({total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+    patients });
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
